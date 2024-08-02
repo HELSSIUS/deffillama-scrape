@@ -1,9 +1,11 @@
 import time
 from decimal import Decimal
 
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from config import logger
 from schemas.chains import Chain
 from .base import Parser
 
@@ -12,11 +14,20 @@ class ChainParser(Parser):
     def parse(self, data: WebDriver, *args, **kwargs) -> list[Chain]:
         driver = data
         self.__goto_bottom(driver)
-        source = driver.find_element(By.XPATH, "//*[@id='__next']/div[1]/div/main/div[2]/div[4]")
-        table = source.find_element(By.XPATH, "./div[2]")
+        try:
+            source = driver.find_element(By.XPATH, "//*[@id='__next']/div[1]/div/main/div[2]/div[4]")
+            table = source.find_element(By.XPATH, "./div[2]")
+        except NoSuchElementException as e:
+            logger.error("Can not find chain table, error: ", e)
+            return []
 
         chains = []
-        rows = table.find_elements(By.XPATH, "./div")
+        try:
+            rows = table.find_elements(By.XPATH, "./div")
+        except NoSuchElementException as e:
+            logger.error("Can not find chain rows, error: ", e)
+            return []
+
         for row in rows:
             name = row.find_element(By.XPATH, "./div[1]/span/a").text
             protocols = row.find_element(By.XPATH, "./div[2]").text

@@ -12,6 +12,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+PROXY = os.getenv("PROXY", "")
+
 
 class ChainScheduleConfig:
     """ Configuration for scheduler """

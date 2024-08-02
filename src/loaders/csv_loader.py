@@ -10,11 +10,13 @@ class CSVLoader(FileLoader):
              with_headers: bool = False, **kwargs) -> None:
         try:
             super().load(path, data, *args, **kwargs)
+            if not data:
+                return
             with open(path, "w", newline="") as f:
                 writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 if with_headers:
                     writer.writerow(data[0].get_csv_headers())
-                for chain in data:
-                    writer.writerow(chain.to_csv_row())
+                for row in data:
+                    writer.writerow(row.to_csv_row())
         except OSError as e:
             logging.error(e)

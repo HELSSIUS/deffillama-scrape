@@ -18,7 +18,7 @@ class ChainRepository(SeleniumRepository):
         if url is None:
             url = self.url
         chains = super().get(url, *args, **kwargs)
-        if chains[0] and isinstance(chains[0], Chain):
+        if chains and isinstance(chains[0], Chain):
             return chains
 
     def _get_data(self) -> WebDriver:

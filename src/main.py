@@ -1,8 +1,6 @@
-from webbrowser import Chrome
-
 from selenium.webdriver import ChromeOptions
 
-from config import ChainScheduleConfig
+from config import ChainScheduleConfig, PROXY
 from services.scrape_chain import ScrapeChainService
 
 
@@ -14,6 +12,8 @@ def main():
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 "
         "Safari/537.36"
     )
+    if PROXY:
+        options.add_argument(f"--proxy-server={PROXY}")
 
     service = ScrapeChainService()
     service.run(config=ChainScheduleConfig(), options=options)
