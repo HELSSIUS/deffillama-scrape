@@ -4,6 +4,8 @@ from typing import Protocol, runtime_checkable
 
 @runtime_checkable
 class Parser(Protocol):
+    """Parser interface"""
+
     @abstractmethod
     def parse(self, data: object, *args, **kwargs) -> object:
         ...
@@ -11,14 +13,8 @@ class Parser(Protocol):
 
 @runtime_checkable
 class AsyncParser(Protocol):
+    """AsyncParser interface"""
+
     @abstractmethod
     async def async_parse(self, data: object, *args, **kwargs) -> object:
         ...
-
-
-class CombinedParser(Parser, AsyncParser):
-    def parse(self, data: object, *args, **kwargs) -> object:
-        pass
-
-    async def async_parse(self, data: object, *args, **kwargs) -> object:
-        pass

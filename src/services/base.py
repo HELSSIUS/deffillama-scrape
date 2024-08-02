@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 
 
 class Service(ABC):
+    """ Base class for all services """
 
     def __enter__(self, *args, **kwargs):
         self.run(*args, **kwargs)

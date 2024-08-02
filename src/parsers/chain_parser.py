@@ -12,6 +12,7 @@ from .base import Parser
 
 class ChainParser(Parser):
     def parse(self, data: WebDriver, *args, **kwargs) -> list[Chain]:
+        """ Parses table of chains """
         driver = data
         self.__goto_bottom(driver)
         try:
@@ -37,6 +38,7 @@ class ChainParser(Parser):
 
     @staticmethod
     def __goto_bottom(driver: WebDriver) -> None:
+        """ Scrolls to the bottom of the page to load more chains """
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:

@@ -11,6 +11,7 @@ from services.base import Service
 class ScrapeChainService(Service):
     @staticmethod
     def serve(driver_type: type[WebDriver] = Chrome, options: ChromeOptions = ChromeOptions()) -> None:
+        """ Main logic of the service """
         with driver_type(options=options) as driver:
             chain_repository = ChainRepository(driver)
             chain = chain_repository.get()
@@ -20,6 +21,7 @@ class ScrapeChainService(Service):
 
     def run(self, config: ChainScheduleConfig, driver: type[WebDriver] = Chrome,
             options: ChromeOptions = ChromeOptions()) -> None:
+        """ Run Service via scheduler """
         # Convert interval to seconds and schedule the task
         interval_seconds = config.parse_interval()
         schedule.every(interval_seconds).seconds.do(self.serve, driver_type=driver, options=options)

@@ -8,6 +8,7 @@ from schemas.chains import Chain
 
 
 class ChainRepository(SeleniumRepository):
+    """ Fetches data from https://defillama.com/chains """
     url: ClassVar[str] = "https://defillama.com/chains"
 
     def __init__(self, driver: WebDriver, *args, **kwargs) -> None:
